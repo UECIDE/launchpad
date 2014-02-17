@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<project name="energia-lm4f" default="build">
+
+    <property name="version" value="1.0.5" />
+    <property name="revision" value="2" />
+
+    <target name="update">
+        <mkdir dir="../../files" />
+        <exec executable="git" failonerror="false" dir="../../files">
+            <arg value="clone" />
+            <arg value="--depth" />
+            <arg value="1" />
+            <arg value="git@github.com:energia/Energia.git" />
+        </exec>
+        <exec executable="git" failonerror="true" dir="../../files/Energia">
+            <arg value="pull" />
+        </exec>
+    </target>
+
+
+    <target name="build" depends="update">
+        <mkdir dir="build" />
+        <mkdir dir="build/energia-lm4f" />
+        <mkdir dir="build/energia-lm4f/api" />
+        <mkdir dir="build/energia-lm4f/examples" />
+        <mkdir dir="build/energia-lm4f/libraries" />
+        <mkdir dir="build/energia-lm4f/tools" />
+        <copy todir="build/energia-lm4f/api"> <fileset dir="../../files/Energia/hardware/lm4f/cores/lm4f/" includes="**/*"/> </copy>
+        <copy todir="build/energia-lm4f/libraries"> <fileset dir="../../files/Energia/hardware/lm4f/libraries/" includes="**/*"/> </copy>
+        <copy todir="build/energia-lm4f/examples"> <fileset dir="../../files/Energia/examples/" includes="**/*"/> </copy>
+
+        <copy todir="build/energia-lm4f/tools"> <fileset dir="tools/" includes="**/*"/> </copy>
+        <copy todir="build/energia-lm4f" file="../../files/Energia/build/shared/lib/keywords.txt" />
+        <copy todir="build/energia-lm4f" file="core.txt" />
+        <replace file="build/energia-lm4f/core.txt" token="%VERSION%" value="${version}" />
+        <replace file="build/energia-lm4f/core.txt" token="%REVISION%" value="${revision}" />
+
+        <jar basedir="build" destfile="energia-lm4f.jar">
+            <manifest>
+                <attribute name="Version" value="${version}-${revision}" />
+                <attribute name="Author" value="Energia" />
+                <attribute name="Compiler" value="arm-eabi-gcc" />
+                <attribute name="Core" value="energia-lm4f" />
+                <attribute name="Platform" value="any" />
+                <attribute name="Family" value="lm4f" />
+                <attribute name="Description" value="Energia API" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="install" depends="build">
+        <move file="energia-lm4f.jar" todir="/var/www/uecide/plugins/cores" />
+    </target>
+
+    <target name="clean">
+        <delete dir="build" />
+        <delete file="energia-lm4f.jar" />
+    </target>
+
+
+</project>

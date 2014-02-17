@@ -13,17 +13,25 @@
 
 
     <sequential>
-        <property prefix="boards" file="../files/Energia/hardware/msp430/boards.txt" />
-        <propertyselector property="board.list"
+        <property prefix="msp.boards" file="../files/Energia/hardware/msp430/boards.txt" />
+        <propertyselector property="msp.board.list"
             delimiter=","
-            match="boards\.([^\.]*)\.name"
+            match="msp.boards\.([^\.]*)\.name"
+            select="\1" />
+        <property prefix="lm4f.boards" file="../files/Energia/hardware/lm4f/boards.txt" />
+        <propertyselector property="lm4f.board.list"
+            delimiter=","
+            match="lm4f.boards\.([^\.]*)\.name"
             select="\1" />
     </sequential>
 
     <target name="build">
         <mkdir dir="Launchpad" />
-        <symlink link="Launchpad/build.xml" resource="../genericBuild.xml" />
-        <foreach list="${board.list}" param="board" target="board.create" />
+        <mkdir dir="Stellarpad" />
+        <symlink link="Launchpad/build.xml" resource="../genericBuild.xml" overwrite="true" />
+        <symlink link="Stellarpad/build.xml" resource="../genericBuild.xml" overwrite="true" />
+        <foreach list="${msp.board.list}" param="board" target="msp.board.create"/>
+        <foreach list="${lm4f.board.list}" param="board" target="lm4f.board.create"/>
 
         <subant target="build">
             <dirset dir="." includes="*"/>
@@ -31,20 +39,17 @@
 
     </target>
 
-    <target name="board.create">
-        <echo>
-Creating board ${board}
-        </echo>
+    <target name="msp.board.create">
         <mkdir dir="Launchpad/${board}" />
 
-        <propertycopy property="variant" from="boards.${board}.build.variant" />
-        <propertycopy property="name" from="boards.${board}.name" /> 
-        <propertycopy property="build.mcu" from="boards.${board}.build.mcu" /> 
-        <propertycopy property="build.f_cpu" from="boards.${board}.build.f_cpu" />
-        <propertycopy property="build.core" from="boards.${board}.build.core" />
-        <propertycopy property="upload.maximum_size" from="boards.${board}.upload.maximum_size" />
-        <propertycopy property="upload.maximum_ram" from="boards.${board}.upload.maximum_ram_size" />
-        <propertycopy property="upload.protocol" from="boards.${board}.upload.protocol" />
+        <propertycopy property="variant" from="msp.boards.${board}.build.variant" />
+        <propertycopy property="name" from="msp.boards.${board}.name" /> 
+        <propertycopy property="build.mcu" from="msp.boards.${board}.build.mcu" /> 
+        <propertycopy property="build.f_cpu" from="msp.boards.${board}.build.f_cpu" />
+        <propertycopy property="build.core" from="msp.boards.${board}.build.core" />
+        <propertycopy property="upload.maximum_size" from="msp.boards.${board}.upload.maximum_size" />
+        <propertycopy property="upload.maximum_ram" from="msp.boards.${board}.upload.maximum_ram_size" />
+        <propertycopy property="upload.protocol" from="msp.boards.${board}.upload.protocol" />
 
         <propertyfile file="Launchpad/${board}/board.txt">
             <entry key="group" value="Launchpad" />
@@ -64,13 +69,42 @@ Creating board ${board}
         <copy todir="Launchpad/${board}">
             <fileset dir="../files/Energia/hardware/msp430/variants/${variant}" includes="**/*" />
         </copy>
+    </target>
 
+    <target name="lm4f.board.create">
+        <mkdir dir="Stellarpad/${board}" />
 
+        <propertycopy property="variant" from="lm4f.boards.${board}.build.variant" />
+        <propertycopy property="name" from="lm4f.boards.${board}.name" /> 
+        <propertycopy property="build.mcu" from="lm4f.boards.${board}.build.mcu" /> 
+        <propertycopy property="build.f_cpu" from="lm4f.boards.${board}.build.f_cpu" />
+        <propertycopy property="build.core" from="lm4f.boards.${board}.build.core" />
+        <propertycopy property="upload.maximum_size" from="lm4f.boards.${board}.upload.maximum_size" />
+        <propertycopy property="upload.maximum_ram" from="lm4f.boards.${board}.upload.maximum_ram_size" />
+
+        <propertyfile file="Stellarpad/${board}/board.txt">
+            <entry key="group" value="Stellarpad" />
+            <entry key="family" value="lm4f" />
+            <entry key="board" value="_BOARD_${board}_" />
+            <entry key="name" value="${name}" />
+            <entry key="build.mcu" value="${build.mcu}" />
+            <entry key="build.f_cpu" value="${build.f_cpu}" />
+            <entry key="build.core" value="${build.core}" />
+            <entry key="upload.maximum_size" value="${upload.maximum_size}" />
+            <entry key="upload.maximum_ram" value="${upload.maximum_ram}" />
+            <entry key="version" value="${version}" />
+            <entry key="revision" value="${revision}" />
+        </propertyfile>
+
+        <copy todir="Stellarpad/${board}">
+            <fileset dir="../files/Energia/hardware/lm4f/variants/${variant}" includes="**/*" />
+        </copy>
     </target>
 
 
     <target name="clean">
         <delete dir="Launchpad" />
+        <delete dir="Stellarpad" />
     </target>
 
     <target name="install">
