@@ -27,7 +27,7 @@ upload.mspdebug.command.macosx=${core.root}/tools/macosx/mspdebug::${upload.prot
 
 upload.mspdebug.verbose=-v
 upload.mspdebug.quiet=-q::-q
-upload.mspdebug.dtr=yes
-upload.mspdebug.rts=yes
+upload.mspdebug.dtr=no
+upload.mspdebug.rts=no
 
 sketch.upload=mspdebug
