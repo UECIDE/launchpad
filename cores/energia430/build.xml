@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<project name="energia430" default="build">
+
+    <property name="version" value="1.0.5" />
+    <property name="revision" value="1" />
+
+    <target name="update">
+        <mkdir dir="../../files" />
+        <exec executable="git" failonerror="false" dir="../../files">
+            <arg value="clone" />
+            <arg value="--depth" />
+            <arg value="1" />
+            <arg value="git@github.com:energia/Energia.git" />
+        </exec>
+        <exec executable="git" failonerror="true" dir="../../files/Energia">
+            <arg value="pull" />
+        </exec>
+    </target>
+
+
+    <target name="build" depends="update">
+        <mkdir dir="build" />
+        <mkdir dir="build/energia430" />
+        <mkdir dir="build/energia430/api" />
+        <mkdir dir="build/energia430/examples" />
+        <mkdir dir="build/energia430/libraries" />
+        <mkdir dir="build/energia430/tools" />
+        <copy todir="build/energia430/api"> <fileset dir="../../files/Energia/hardware/msp430/cores/msp430/" includes="**/*"/> </copy>
+        <copy todir="build/energia430/libraries"> <fileset dir="../../files/Energia/hardware/msp430/libraries/" includes="**/*"/> </copy>
+        <copy todir="build/energia430/examples"> <fileset dir="../../files/Energia/examples/" includes="**/*"/> </copy>
+
+        <copy todir="build/energia430/tools"> <fileset dir="tools/" includes="**/*"/> </copy>
+        <copy todir="build/energia430" file="../../files/Energia/build/shared/lib/keywords.txt" />
+        <copy todir="build/energia430" file="core.txt" />
+        <replace file="build/energia430/core.txt" token="%VERSION%" value="${version}" />
+        <replace file="build/energia430/core.txt" token="%REVISION%" value="${revision}" />
+
+        <jar basedir="build" destfile="energia430.jar">
+            <manifest>
+                <attribute name="Version" value="${version}-${revision}" />
+                <attribute name="Author" value="Energia" />
+                <attribute name="Compiler" value="avr-gcc" />
+                <attribute name="Core" value="energia430" />
+                <attribute name="Platform" value="any" />
+                <attribute name="Family" value="avr" />
+                <attribute name="Description" value="Energia API" />
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="install" depends="build">
+        <move file="energia430.jar" todir="/var/www/uecide/plugins/cores" />
+    </target>
+
+    <target name="clean">
+        <delete dir="build" />
+        <delete file="energia430.jar" />
+    </target>
+
+
+</project>
