@@ -39,7 +39,7 @@
             <manifest>
                 <attribute name="Version" value="${version}-${revision}" />
                 <attribute name="Author" value="Energia" />
-                <attribute name="Compiler" value="arm-eabi-gcc" />
+                <attribute name="Compiler" value="arm-eabi-lm4f" />
                 <attribute name="Core" value="energia-lm4f" />
                 <attribute name="Platform" value="any" />
                 <attribute name="Family" value="lm4f" />

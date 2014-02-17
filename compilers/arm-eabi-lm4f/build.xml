@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<project name="arm-eabi-lm4c" default="build">
+
+    <property name="version" value="4.6.3" />
+    <property name="revision" value="1" />
+
+    <target name="build" depends="structure,linux,macosx,windows">
+    </target>
+
+    <target name="install" depends="build">
+        <move file="${ant.project.name}-linux.jar" todir="/var/www/uecide/plugins/compilers" />
+        <move file="${ant.project.name}-macosx.jar" todir="/var/www/uecide/plugins/compilers" />
+        <move file="${ant.project.name}-windows.jar" todir="/var/www/uecide/plugins/compilers" />
+    </target>
+
+    <target name="structure">
+        <mkdir dir="files" />
+    </target>
+
+    <target name="macosx">
+        <mkdir dir="build/${ant.project.name}" />
+        <mkdir dir="files" />
+        <get src='http://cloud.github.com/downloads/energia/energia_tools/lm4f_tools_macosx.zip' dest="files/lm4f_tools_macosx.zip" usetimestamp="true" />
+        <unzip dest="files" src="files/lm4f_tools_macosx.zip" overwrite="false" />
+        <copy todir="build/${ant.project.name}"> <fileset dir="files/tools/lm4f" includes="**/*"/> </copy>
+        <copy file="compiler.txt" todir="build/${ant.project.name}" />
+        <replace file="build/${ant.project.name}/compiler.txt" token="%VERSION%" value="${version}" />
+        <replace file="build/${ant.project.name}/compiler.txt" token="%REVISION%" value="${revision}" />
+        <jar basedir="build" destfile="${ant.project.name}-macosx.jar">
+            <manifest>
+                <attribute name="Version" value="${version}-${revision}" />
+                <attribute name="Author" value="Majenko Technologies" />
+                <attribute name="Compiler" value="${ant.project.name}" />
+                <attribute name="Family" value="lm4f" />
+                <attribute name="Platform" value="macosx" />
+                <attribute name="Arch" value="any" />
+            </manifest>
+        </jar>
+        <delete dir="files/tools" />
+        <delete dir="build" />
+    </target>
+
+    <target name="linux">
+        <mkdir dir="build/${ant.project.name}" />
+        <get src='http://cloud.github.com/downloads/energia/energia_tools/lm4f_tools_linux32.tar.bz2' dest="files/lm4f_tools_linux32.tar.bz2" usetimestamp="true" />
+        <mkdir dir="files" />
+        <exec dir="files" executable="tar">
+            <arg value="-jxf" />
+            <arg value="lm4f_tools_linux32.tar.bz2" />
+        </exec>
+        <copy todir="build/${ant.project.name}"> <fileset dir="files/tools/lm4f" includes="**/*"/> </copy>
+        <copy file="compiler.txt" todir="build/${ant.project.name}" />
+        <replace file="build/${ant.project.name}/compiler.txt" token="%VERSION%" value="${version}" />
+        <replace file="build/${ant.project.name}/compiler.txt" token="%REVISION%" value="${revision}" />
+        <jar basedir="build" destfile="${ant.project.name}-linux.jar">
+            <manifest>
+                <attribute name="Version" value="${version}-${revision}" />
+                <attribute name="Author" value="Majenko Technologies" />
+                <attribute name="Compiler" value="${ant.project.name}" />
+                <attribute name="Family" value="lm4f" />
+                <attribute name="Platform" value="linux" />
+                <attribute name="Arch" value="i386,amd64" />
+            </manifest>
+        </jar>
+        <delete dir="files/tools" />
+        <delete dir="build" />
+    </target>
+
+    <target name="windows">
+        <mkdir dir="build/${ant.project.name}" />
+        <mkdir dir="files" />
+        <get src='http://cloud.github.com/downloads/energia/energia_tools/lm4f_tools_windows.zip' dest="files/lm4f_tools_windows.zip" usetimestamp="true" />
+        <unzip dest="files" src="files/lm4f_tools_windows.zip" overwrite="false" />
+        <copy todir="build/${ant.project.name}"> <fileset dir="files/tools/lm4f" includes="**/*"/> </copy>
+        <copy file="compiler.txt" todir="build/${ant.project.name}" />
+        <replace file="build/${ant.project.name}/compiler.txt" token="%VERSION%" value="${version}" />
+        <replace file="build/${ant.project.name}/compiler.txt" token="%REVISION%" value="${revision}" />
+        <jar basedir="build" destfile="${ant.project.name}-windows.jar">
+            <manifest>
+                <attribute name="Version" value="${version}-${revision}" />
+                <attribute name="Author" value="Majenko Technologies" />
+                <attribute name="Compiler" value="${ant.project.name}" />
+                <attribute name="Family" value="lm4f" />
+                <attribute name="Platform" value="windows" />
+                <attribute name="Arch" value="any" />
+            </manifest>
+        </jar>
+        <delete dir="files/tools" />
+        <delete dir="build" />
+    </target>
+
+    <target name="clean">
+        <delete dir="files" />
+        <delete dir="build" />
+        <delete file="${ant.project.name}-linux.jar" />
+        <delete file="${ant.project.name}-macosx.jar" />
+        <delete file="${ant.project.name}-windows.jar" />
+    </target>
+</project>

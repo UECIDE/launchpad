@@ -1,6 +1,6 @@
 name=energia-lm4f
 description=Arduino compatability API for LM4F Arm boards
-compiler=arm-eabi-gcc
+compiler=arm-eabi-lm4f
 version=%VERSION%
 revision=%REVISION%
 

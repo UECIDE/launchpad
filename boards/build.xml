@@ -81,6 +81,7 @@
         <propertycopy property="build.core" from="lm4f.boards.${board}.build.core" />
         <propertycopy property="upload.maximum_size" from="lm4f.boards.${board}.upload.maximum_size" />
         <propertycopy property="upload.maximum_ram" from="lm4f.boards.${board}.upload.maximum_ram_size" />
+        <propertycopy property="ldscript" from="lm4f.boards.${board}.ldscript" />
 
         <propertyfile file="Stellarpad/${board}/board.txt">
             <entry key="group" value="Stellarpad" />
@@ -89,7 +90,9 @@
             <entry key="name" value="${name}" />
             <entry key="build.mcu" value="${build.mcu}" />
             <entry key="build.f_cpu" value="${build.f_cpu}" />
+            <entry key="build.fpu" value="fpv4-sp-d16" />
             <entry key="build.core" value="${build.core}" />
+            <entry key="ldscript" value="${ldscript}" />
             <entry key="upload.maximum_size" value="${upload.maximum_size}" />
             <entry key="upload.maximum_ram" value="${upload.maximum_ram}" />
             <entry key="version" value="${version}" />
