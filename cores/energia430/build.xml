@@ -39,10 +39,10 @@
             <manifest>
                 <attribute name="Version" value="${version}-${revision}" />
                 <attribute name="Author" value="Energia" />
-                <attribute name="Compiler" value="avr-gcc" />
+                <attribute name="Compiler" value="msp430-gcc" />
                 <attribute name="Core" value="energia430" />
                 <attribute name="Platform" value="any" />
-                <attribute name="Family" value="avr" />
+                <attribute name="Family" value="msp430" />
                 <attribute name="Description" value="Energia API" />
             </manifest>
         </jar>

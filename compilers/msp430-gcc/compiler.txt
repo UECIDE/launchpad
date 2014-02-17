@@ -1,4 +1,5 @@
 name=msp430-gcc
+family=msp430
 version=%VERSION%
 revision=%REVISION%
 

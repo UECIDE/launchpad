@@ -71,7 +71,7 @@
                 <attribute name="Compiler" value="msp430-gcc" />
                 <attribute name="Family" value="msp430" />
                 <attribute name="Platform" value="linux" />
-                <attribute name="Arch" value="i386" />
+                <attribute name="Arch" value="i386,amd64" />
             </manifest>
         </jar>
         <delete dir="files/tools" />
