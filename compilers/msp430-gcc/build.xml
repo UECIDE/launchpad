@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<project name="msp430-gcc" default="build">
+
+    <property name="version" value="4.6.3" />
+    <property name="revision" value="1" />
+
+    <target name="build" depends="structure,linux,macosx,windows">
+    </target>
+
+    <target name="install" depends="build">
+        <move file="msp430-gcc-linux.jar" todir="/var/www/uecide/plugins/compilers" />
+        <move file="msp430-gcc-macosx.jar" todir="/var/www/uecide/plugins/compilers" />
+        <move file="msp430-gcc-windows.jar" todir="/var/www/uecide/plugins/compilers" />
+    </target>
+
+    <target name="structure">
+        <mkdir dir="files" />
+    </target>
+
+    <target name="update">
+        <mkdir dir="../../files" />
+        <exec executable="git" failonerror="false" dir="../../files">
+            <arg value="clone" />
+            <arg value="--depth" />
+            <arg value="1" />
+            <arg value="git@github.com:energia/Energia.git" />
+        </exec>
+        <exec executable="git" failonerror="true" dir="../../files/Energia">
+            <arg value="pull" />
+        </exec>
+    </target>
+
+    <target name="macosx" depends="update">
+        <mkdir dir="build/msp430-gcc" />
+        <mkdir dir="files" />
+        <unzip dest="files" src="../../files/Energia/build/macosx/dist/tools-msp430.zip" overwrite="false" />
+        <copy todir="build/msp430-gcc"> <fileset dir="files/tools/msp430" includes="**/*"/> </copy>
+        <copy file="compiler.txt" todir="build/msp430-gcc/" />
+        <replace file="build/msp430-gcc/compiler.txt" token="%VERSION%" value="${version}" />
+        <replace file="build/msp430-gcc/compiler.txt" token="%REVISION%" value="${revision}" />
+        <jar basedir="build" destfile="msp430-gcc-macosx.jar">
+            <manifest>
+                <attribute name="Version" value="${version}-${revision}" />
+                <attribute name="Author" value="Majenko Technologies" />
+                <attribute name="Compiler" value="msp430-gcc" />
+                <attribute name="Family" value="msp430" />
+                <attribute name="Platform" value="macosx" />
+                <attribute name="Arch" value="any" />
+            </manifest>
+        </jar>
+        <delete dir="files/tools" />
+        <delete dir="build" />
+    </target>
+
+    <target name="linux" depends="update">
+        <mkdir dir="build/msp430-gcc" />
+        <mkdir dir="files" />
+        <exec dir="files" executable="tar">
+            <arg value="-jxf" />
+            <arg value="../../../files/Energia/build/linux/msp430_tools_linux32.tar.bz2" />
+        </exec>
+        <!--untar compression="bzip2" dest="files" src="../../files/Energia/build/linux/msp430_tools_linux32.tar.bz2" overwrite="false" /-->
+        <copy todir="build/msp430-gcc"> <fileset dir="files/tools/msp430" includes="**/*"/> </copy>
+        <copy file="compiler.txt" todir="build/msp430-gcc/" />
+        <replace file="build/msp430-gcc/compiler.txt" token="%VERSION%" value="${version}" />
+        <replace file="build/msp430-gcc/compiler.txt" token="%REVISION%" value="${revision}" />
+        <jar basedir="build" destfile="msp430-gcc-linux.jar">
+            <manifest>
+                <attribute name="Version" value="${version}-${revision}" />
+                <attribute name="Author" value="Majenko Technologies" />
+                <attribute name="Compiler" value="msp430-gcc" />
+                <attribute name="Family" value="msp430" />
+                <attribute name="Platform" value="linux" />
+                <attribute name="Arch" value="i386" />
+            </manifest>
+        </jar>
+        <delete dir="files/tools" />
+        <delete dir="build" />
+    </target>
+
+    <target name="windows" depends="update">
+        <mkdir dir="build/msp430-gcc" />
+        <mkdir dir="files" />
+        <unzip dest="files" src="../../files/Energia/build/windows/msp430_tools.zip" overwrite="false" />
+        <copy todir="build/msp430-gcc"> <fileset dir="files/tools/msp430" includes="**/*"/> </copy>
+        <copy file="compiler.txt" todir="build/msp430-gcc/" />
+        <replace file="build/msp430-gcc/compiler.txt" token="%VERSION%" value="${version}" />
+        <replace file="build/msp430-gcc/compiler.txt" token="%REVISION%" value="${revision}" />
+        <jar basedir="build" destfile="msp430-gcc-windows.jar">
+            <manifest>
+                <attribute name="Version" value="${version}-${revision}" />
+                <attribute name="Author" value="Majenko Technologies" />
+                <attribute name="Compiler" value="msp430-gcc" />
+                <attribute name="Family" value="msp430" />
+                <attribute name="Platform" value="windows" />
+                <attribute name="Arch" value="any" />
+            </manifest>
+        </jar>
+        <delete dir="files/tools" />
+        <delete dir="build" />
+    </target>
+
+    <target name="clean">
+        <delete dir="files" />
+        <delete dir="build" />
+        <delete file="msp430-gcc-linux.jar" />
+        <delete file="msp430-gcc-macosx.jar" />
+        <delete file="msp430-gcc-windows.jar" />
+    </target>
+</project>
