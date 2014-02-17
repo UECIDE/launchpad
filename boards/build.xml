@@ -24,6 +24,11 @@
         <mkdir dir="Launchpad" />
         <symlink link="Launchpad/build.xml" resource="../genericBuild.xml" />
         <foreach list="${board.list}" param="board" target="board.create" />
+
+        <subant target="build">
+            <dirset dir="." includes="*"/>
+        </subant>
+
     </target>
 
     <target name="board.create">
@@ -67,6 +72,13 @@ Creating board ${board}
     <target name="clean">
         <delete dir="Launchpad" />
     </target>
+
+    <target name="install">
+        <subant target="install">
+            <dirset dir="." includes="*"/>
+        </subant>
+    </target>
+
 </project>
 
 <!--
