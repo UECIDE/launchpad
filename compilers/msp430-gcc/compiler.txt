@@ -21,7 +21,7 @@ compile.ar=${ar}::rcs::${library}::${object.name}
 compile.eep=${objcopy}::-O::ihex::-j::.eeprom::--set-section-flags=.eeprom=alloc,load::--no-change-warnings::--change-section-lma::.eeprom=0::${build.path}/${filename}.elf::${build.path}/${filename}.eep
 compile.hex=${objcopy}::-O::ihex::-R::.eeprom::${build.path}/${filename}.elf::${build.path}/${filename}.hex
 compile.lss=${objdump}::-h::-S::${build.path}/${filename}.elf
-compile.link=${gcc}::${ldflags}::-mmcu=${build.mcu}::-o::${build.path}/${filename}.elf::${object.filelist}::-L${build.path}::-L${libraries.path}::${libraries}::-lm
+compile.link=${gcc}::${ldflags}::-mmcu=${build.mcu}::-o::${build.path}/${filename}.elf::${object.filelist}::-L${build.path}::-L${libraries.path}::-Wl,--start-group::${libraries}::-Wl,--end-group::-lm
 compile.size=${size}::${build.path}/${filename}.elf
 compiler.error=^([^:]+):(\\d+):\\d+: error: (.*)
 

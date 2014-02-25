@@ -4,7 +4,8 @@ compiler=arm-eabi-lm4f
 version=%VERSION%
 revision=%REVISION%
 
-core.path=api
+core.library.api=api
+core.library.driver=api/driverlib
 core.flags=-DF_CPU=${build.f_cpu}::-DARDUINO=${core.version}::-D${board}::-DENERGIA=${core.revision}
 core.header=Arduino.h
 core.version=105

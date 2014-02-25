@@ -2,7 +2,7 @@
 <project name="msp430-gcc" default="build">
 
     <property name="version" value="4.6.3" />
-    <property name="revision" value="1" />
+    <property name="revision" value="2" />
 
     <target name="build" depends="structure,linux,macosx,windows">
     </target>

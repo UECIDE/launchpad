@@ -2,7 +2,7 @@
 <project name="energia-lm4f" default="build">
 
     <property name="version" value="1.0.5" />
-    <property name="revision" value="2" />
+    <property name="revision" value="4" />
 
     <target name="update">
         <mkdir dir="../../files" />
@@ -11,9 +11,6 @@
             <arg value="--depth" />
             <arg value="1" />
             <arg value="git@github.com:energia/Energia.git" />
-        </exec>
-        <exec executable="git" failonerror="true" dir="../../files/Energia">
-            <arg value="pull" />
         </exec>
     </target>
 

@@ -5,7 +5,7 @@ compiler=msp430-gcc
 version=%VERSION%
 revision=%REVISION%
 
-core.path=api
+core.library.api=api
 core.flags=-DF_CPU=${build.f_cpu}::-DARDUINO=${core.version}::-D${board}::-DENERGIA=${core.revision}
 core.header=Arduino.h
 core.version=105

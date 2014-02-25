@@ -36,11 +36,16 @@
                        replace="_"
                        global="true"/>
 
+        <condition property="core" value="energia430" else="energia-lm4f">
+            <equals arg1="${family}" arg2="msp430" />
+        </condition>
+
         <jar destfile="${prefix}-${subdir}.jar">
             <zipfileset dir="${subdir}" prefix="${group}/${subdir}"/>
             <manifest>
                 <attribute name="Group" value="${group}" />
                 <attribute name="Board" value="${subdir}" />
+                <attribute name="Core" value="${core}" />
                 <attribute name="Version" value="${version}-${revision}" />
                 <attribute name="Author" value="${group}" />
                 <attribute name="Platform" value="any" />
