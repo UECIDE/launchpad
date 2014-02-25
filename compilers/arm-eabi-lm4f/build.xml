@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<project name="arm-eabi-lm4c" default="build">
+<project name="arm-eabi-lm4f" default="build">
 
     <property name="version" value="4.6.3" />
-    <property name="revision" value="1" />
+    <property name="revision" value="4" />
 
     <target name="build" depends="structure,linux,macosx,windows">
     </target>
@@ -68,10 +68,12 @@
 
     <target name="windows">
         <mkdir dir="build/${ant.project.name}" />
+        <mkdir dir="build/${ant.project.name}/dll" />
         <mkdir dir="files" />
         <get src='http://cloud.github.com/downloads/energia/energia_tools/lm4f_tools_windows.zip' dest="files/lm4f_tools_windows.zip" usetimestamp="true" />
         <unzip dest="files" src="files/lm4f_tools_windows.zip" overwrite="false" />
         <copy todir="build/${ant.project.name}"> <fileset dir="files/tools/lm4f" includes="**/*"/> </copy>
+        <copy todir="build/${ant.project.name}/dll"> <fileset dir="dll" includes="**/*" /> </copy>
         <copy file="compiler.txt" todir="build/${ant.project.name}" />
         <replace file="build/${ant.project.name}/compiler.txt" token="%VERSION%" value="${version}" />
         <replace file="build/${ant.project.name}/compiler.txt" token="%REVISION%" value="${revision}" />
