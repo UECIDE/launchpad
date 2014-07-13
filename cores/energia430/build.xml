@@ -2,7 +2,7 @@
 <project name="energia430" default="build">
 
     <property name="version" value="1.0.5" />
-    <property name="revision" value="3" />
+    <property name="revision" value="4" />
 
     <target name="update">
         <mkdir dir="../../files" />

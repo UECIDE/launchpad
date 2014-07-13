@@ -49,7 +49,7 @@
                 <attribute name="Version" value="${version}-${revision}" />
                 <attribute name="Author" value="${group}" />
                 <attribute name="Platform" value="any" />
-                <attribute name="Description" value="${name}" />
+                <attribute name="Description" value="${description}" />
                 <attribute name="Family" value="${family}" />
             </manifest>
         </jar>

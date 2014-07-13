@@ -4,13 +4,14 @@
     <property name="version" value="4.6.3" />
     <property name="revision" value="2" />
 
-    <target name="build" depends="structure,linux,macosx,windows">
+    <target name="build" depends="structure,linux,macosx,windows,freebsd">
     </target>
 
     <target name="install" depends="build">
         <move file="msp430-gcc-linux.jar" todir="/var/www/uecide/plugins/compilers" />
         <move file="msp430-gcc-macosx.jar" todir="/var/www/uecide/plugins/compilers" />
         <move file="msp430-gcc-windows.jar" todir="/var/www/uecide/plugins/compilers" />
+        <move file="msp430-gcc-freebsd.jar" todir="/var/www/uecide/plugins/compilers" />
     </target>
 
     <target name="structure">
@@ -99,6 +100,51 @@
         <delete dir="files/tools" />
         <delete dir="build" />
     </target>
+
+    <target name="freebsd">
+        <mkdir dir="build/msp430-gcc" />
+        <get src="http://pkg0.bme.freebsd.org/freebsd:10:x86:32/latest/All/msp430-gcc-4.6.3.20120406_2,2.txz"
+             dest="files/msp430-gcc.txz" usetimestamp="true" />
+
+        <exec executable="tar" dir="files">
+            <arg value="-Jxf" />
+            <arg value="msp430-gcc.txz" />
+        </exec>
+
+        <get src="http://pkg0.bme.freebsd.org/freebsd:10:x86:32/latest/All/msp430-binutils-2.21.1a.20120406.txz"
+             dest="files/msp430-binutils.txz" usetimestamp="true" />
+
+        <exec executable="tar" dir="files">
+            <arg value="-Jxf" />
+            <arg value="msp430-binutils.txz" />
+        </exec>
+
+        <get src="http://pkg0.bme.freebsd.org/freebsd:10:x86:32/latest/All/msp430-libc-gcc4-1.0.20120224_2.txz"
+             dest="files/msp430-libc.txz" usetimestamp="true" />
+
+        <exec executable="tar" dir="files">
+            <arg value="-Jxf" />
+            <arg value="msp430-libc.txz" />
+        </exec>
+
+        <copy todir="build/msp430-gcc"> <fileset dir="files/usr/local" includes="**/*"/> </copy>
+        <copy file="compiler.txt" todir="build/msp430-gcc/" />
+        <replace file="build/msp430-gcc/compiler.txt" token="%VERSION%" value="${version}" />
+        <replace file="build/msp430-gcc/compiler.txt" token="%REVISION%" value="${revision}" />
+        <jar basedir="build" destfile="msp430-gcc-freebsd.jar">
+            <manifest>
+                <attribute name="Version" value="${version}-${revision}" />
+                <attribute name="Author" value="Majenko Technologies" />
+                <attribute name="Compiler" value="msp430-gcc" />
+                <attribute name="Family" value="msp430" />
+                <attribute name="Platform" value="freebsd" />
+                <attribute name="Arch" value="any" />
+            </manifest>
+        </jar>
+        <delete dir="files/usr" />
+        <delete dir="build" />
+    </target>
+
 
     <target name="clean">
         <delete dir="files" />

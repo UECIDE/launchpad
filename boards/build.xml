@@ -25,7 +25,7 @@
             select="\1" />
     </sequential>
 
-    <target name="build">
+    <target name="build" depends="update">
         <mkdir dir="Launchpad" />
         <mkdir dir="Stellarpad" />
         <symlink link="Launchpad/build.xml" resource="../genericBuild.xml" overwrite="true" />
@@ -39,11 +39,22 @@
 
     </target>
 
+    <target name="update">
+        <mkdir dir="../files" />
+        <exec executable="git" failonerror="false" dir="../files">
+            <arg value="clone" />
+            <arg value="--depth" />
+            <arg value="1" />
+            <arg value="git@github.com:energia/Energia.git" />
+        </exec>
+    </target>
+
+
     <target name="msp.board.create">
         <mkdir dir="Launchpad/${board}" />
 
         <propertycopy property="variant" from="msp.boards.${board}.build.variant" />
-        <propertycopy property="name" from="msp.boards.${board}.name" /> 
+        <propertycopy property="description" from="msp.boards.${board}.name" /> 
         <propertycopy property="build.mcu" from="msp.boards.${board}.build.mcu" /> 
         <propertycopy property="build.f_cpu" from="msp.boards.${board}.build.f_cpu" />
         <propertycopy property="build.core" from="msp.boards.${board}.build.core" />
@@ -55,7 +66,8 @@
             <entry key="group" value="Launchpad" />
             <entry key="family" value="msp430" />
             <entry key="board" value="_BOARD_${board}_" />
-            <entry key="name" value="${name}" />
+            <entry key="name" value="${board}" />
+            <entry key="description" value="${description}" />
             <entry key="build.mcu" value="${build.mcu}" />
             <entry key="build.f_cpu" value="${build.f_cpu}" />
             <entry key="build.core" value="${build.core}" />
@@ -75,7 +87,7 @@
         <mkdir dir="Stellarpad/${board}" />
 
         <propertycopy property="variant" from="lm4f.boards.${board}.build.variant" />
-        <propertycopy property="name" from="lm4f.boards.${board}.name" /> 
+        <propertycopy property="description" from="lm4f.boards.${board}.name" /> 
         <propertycopy property="build.mcu" from="lm4f.boards.${board}.build.mcu" /> 
         <propertycopy property="build.f_cpu" from="lm4f.boards.${board}.build.f_cpu" />
         <propertycopy property="build.core" from="lm4f.boards.${board}.build.core" />
@@ -87,7 +99,8 @@
             <entry key="group" value="Stellarpad" />
             <entry key="family" value="lm4f" />
             <entry key="board" value="_BOARD_${board}_" />
-            <entry key="name" value="${name}" />
+            <entry key="name" value="${board}" />
+            <entry key="description" value="${description}" />
             <entry key="build.mcu" value="${build.mcu}" />
             <entry key="build.f_cpu" value="${build.f_cpu}" />
             <entry key="build.fpu" value="fpv4-sp-d16" />
