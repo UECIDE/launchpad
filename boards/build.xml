@@ -3,7 +3,7 @@
 
 
     <property name="version" value="1" />
-    <property name="revision" value="1" />
+    <property name="revision" value="2" />
 
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
         <classpath>
@@ -70,7 +70,7 @@
             <entry key="description" value="${description}" />
             <entry key="build.mcu" value="${build.mcu}" />
             <entry key="build.f_cpu" value="${build.f_cpu}" />
-            <entry key="build.core" value="${build.core}" />
+            <entry key="build.core" value="energia430" />
             <entry key="upload.maximum_size" value="${upload.maximum_size}" />
             <entry key="upload.maximum_ram" value="${upload.maximum_ram}" />
             <entry key="upload.protocol" value="${upload.protocol}" />
@@ -104,7 +104,7 @@
             <entry key="build.mcu" value="${build.mcu}" />
             <entry key="build.f_cpu" value="${build.f_cpu}" />
             <entry key="build.fpu" value="fpv4-sp-d16" />
-            <entry key="build.core" value="${build.core}" />
+            <entry key="build.core" value="energia-lm4f" />
             <entry key="ldscript" value="${ldscript}" />
             <entry key="upload.maximum_size" value="${upload.maximum_size}" />
             <entry key="upload.maximum_ram" value="${upload.maximum_ram}" />
