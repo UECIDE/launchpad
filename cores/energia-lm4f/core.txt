@@ -24,3 +24,11 @@ upload.lm4flash.command.macosx=${core.root}/tools/macosx/lm4flash::${build.path}
 upload.lm4flash.command.windows=${core.root}/tools/windows/LMFlash::${build.path}/${filename}.bin
 
 sketch.upload=lm4flash
+
+icon.128=icons/energia128.png
+icon.64=icons/energia64.png
+icon.48=icons/energia48.png
+icon.32=icons/energia32.png
+icon.22=icons/energia22.png
+icon.16=icons/energia16.png
+

@@ -2,6 +2,8 @@ name=arm-eabi-lm4f
 version=%VERSION%
 revision=%REVISION%
 
+family=lm4f
+
 cflags=-g::-Os::-w::-ffunction-sections::-fdata-sections::-mthumb::-mfloat-abi=hard::-fsingle-precision-constant
 cppflags=-g::-Os::-w::-fno-exceptions::-ffunction-sections::-fdata-sections::-fno-rtti::-mthumb::-fsingle-precision-constant::-mfloat-abi=hard
 ldflags=-Os::-Wl,--gc-sections,-u,main::-T::${find:${board.root}::${core.root}/api,${ldscript}}::--entry=ResetISR::-mthumb::-mfloat-abi=hard::-fsingle-precision-constant
@@ -26,4 +28,7 @@ compile.hex=${objcopy}::-O::binary::${build.path}/${filename}.elf::${build.path}
 compile.lss=${objdump}::-h::-S::${build.path}/${filename}.elf
 compile.link=${gcc}::-nostartfiles::-nostdlib::${ldflags}::${core.ldflags}::${board.ldflags}::-mcpu=${build.mcu}::-mfpu=${build.fpu}::-o::${build.path}/${filename}.elf::${object.filelist}::-L${build.path}::-L${libraries.path}::-Wl,--start-group::${libraries}::-Wl,--end-group::-lc::-lm::-lgcc
 compile.size=${size}::${build.path}/${filename}.elf
+
+compiler.error=^([^:]+):(\\d+):.* error: (.*)
+compiler.warning=^([^:]+):(\\d+):.* [Ww]arning: (.*)
 

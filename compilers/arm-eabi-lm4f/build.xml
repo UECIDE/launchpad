@@ -2,15 +2,15 @@
 <project name="arm-eabi-lm4f" default="build">
 
     <property name="version" value="4.6.3" />
-    <property name="revision" value="4" />
+    <property name="revision" value="7" />
 
     <target name="build" depends="structure,linux,macosx,windows">
     </target>
 
     <target name="install" depends="build">
-        <move file="${ant.project.name}-linux.jar" todir="/var/www/uecide/plugins/compilers" />
-        <move file="${ant.project.name}-macosx.jar" todir="/var/www/uecide/plugins/compilers" />
-        <move file="${ant.project.name}-windows.jar" todir="/var/www/uecide/plugins/compilers" />
+        <move todir="/var/www/uecide/plugins-087/compilers">
+            <fileset dir="." includes="${ant.project.name}-*.jar" />
+        </move>
     </target>
 
     <target name="structure">

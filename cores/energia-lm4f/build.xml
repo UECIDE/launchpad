@@ -2,7 +2,7 @@
 <project name="energia-lm4f" default="build">
 
     <property name="version" value="1.0.5" />
-    <property name="revision" value="4" />
+    <property name="revision" value="6" />
 
     <target name="update">
         <mkdir dir="../../files" />
@@ -10,7 +10,7 @@
             <arg value="clone" />
             <arg value="--depth" />
             <arg value="1" />
-            <arg value="git@github.com:energia/Energia.git" />
+            <arg value="git@github.com:UECIDE/Energia.git" />
         </exec>
     </target>
 
@@ -25,10 +25,11 @@
         <copy todir="build/energia-lm4f/api"> <fileset dir="../../files/Energia/hardware/lm4f/cores/lm4f/" includes="**/*"/> </copy>
         <copy todir="build/energia-lm4f/libraries"> <fileset dir="../../files/Energia/hardware/lm4f/libraries/" includes="**/*"/> </copy>
         <copy todir="build/energia-lm4f/examples"> <fileset dir="../../files/Energia/examples/" includes="**/*"/> </copy>
+        <copy todir="build/energia-lm4f/icons"> <fileset dir="icons/" includes="**/*"/> </copy>
 
         <copy todir="build/energia-lm4f/tools"> <fileset dir="tools/" includes="**/*"/> </copy>
         <copy todir="build/energia-lm4f" file="../../files/Energia/build/shared/lib/keywords.txt" />
-        <copy todir="build/energia-lm4f" file="core.txt" />
+        <copy todir="build/energia-lm4f" file="core.txt" overwrite="true"/>
         <replace file="build/energia-lm4f/core.txt" token="%VERSION%" value="${version}" />
         <replace file="build/energia-lm4f/core.txt" token="%REVISION%" value="${revision}" />
 
@@ -46,7 +47,7 @@
     </target>
 
     <target name="install" depends="build">
-        <move file="energia-lm4f.jar" todir="/var/www/uecide/plugins/cores" />
+        <move file="energia-lm4f.jar" todir="/var/www/uecide/plugins-087/cores" />
     </target>
 
     <target name="clean">
